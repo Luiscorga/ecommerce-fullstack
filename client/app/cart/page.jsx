@@ -10,14 +10,35 @@ export default function CartPage() {
     0
   );
 
-  if (cart.length === 0) {
+    if (cart.length === 0) {
     return (
-      <div className="p-6">
-        <h1 className="text-3xl font-bold mb-4">Your Cart</h1>
-        <p>Your cart is empty.</p>
-      </div>
+        <div className="flex flex-col items-center justify-center h-[60vh] text-center">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-20 w-20 text-gray-400 mb-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+        >
+            <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 6h13l-1.5-6M7 13l1.5 6M17 13l-1.5 6"
+            />
+        </svg>
+        <h2 className="text-2xl font-semibold mb-2">Your cart is empty</h2>
+        <p className="text-gray-600 mb-6">Looks like you haven't added anything yet.</p>
+        <a
+            href="/products"
+            className="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+        >
+            Browse Products
+        </a>
+        </div>
     );
-  }
+    }
+
 
   return (
     <div className="p-6 max-w-4xl mx-auto">

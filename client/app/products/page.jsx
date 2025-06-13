@@ -3,37 +3,59 @@
 import { useEffect, useState } from 'react';
 import { fetcher } from '@/utils/fetcher';
 import { useCart } from '@/context/CartContext';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
+
+const ITEMS_PER_PAGE = 10;
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
-  const { addToCart } = useCart();
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
   const [searchTerm, setSearchTerm] = useState('');
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastAddedId, setLastAddedId] = useState(null);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     fetcher('http://localhost:8080/api/products').then(setProducts);
   }, []);
 
-  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    setLastAddedId(product.id);
+    setTimeout(() => setLastAddedId(null), 5000);
+  };
 
-  const paginatedProducts = products.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+  const filteredProducts = products.filter((product) =>
+    `${product.brand} ${product.model}`.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const goToPage = (page) => {
-    if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
-  };
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+
+  const paginatedProducts = filteredProducts.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
   return (
     <div className="p-6">
-        <p>PRODUCTS</p>
+      <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">Products</h1>
+      <div className="max-w-2xl mx-auto mb-6 relative">
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setCurrentPage(1);
+          }}
+          className="w-full px-4 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
+        />
+        <MagnifyingGlassIcon className="w-5 h-5 absolute right-3 top-2.5 text-gray-500 pointer-events-none" />
+      </div>
+
+      {/* Product grid */}
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mx-auto max-w-6xl">
         {paginatedProducts.map((product) => (
-          <div key={product.id} className="border rounded-xl p-4 shadow-md flex flex-col h-85 w-92">
+          <div key={product.id} className="border rounded-xl p-4 shadow-md flex flex-col relative">
             <img
               src={product.image_url}
               alt={product.model}
@@ -45,47 +67,40 @@ export default function ProductsPage() {
             <p className="text-sm text-gray-600 mb-2">{product.description}</p>
             <p className="font-semibold text-red-600">${product.price}</p>
             <button
-              onClick={() => addToCart(product)}
+              onClick={() => handleAddToCart(product)}
               className="mt-auto bg-blue-600 text-white rounded px-4 py-2 hover:bg-blue-700"
             >
               Add to Cart
             </button>
+
+            {/* Per-card success message */}
+            {lastAddedId === product.id && (
+              <div className="mt-2 text-sm text-green-600 bg-green-100 rounded px-2 py-1 text-center">
+                Added to cart!
+              </div>
+            )}
           </div>
         ))}
       </div>
 
-      <div className="flex justify-center space-x-2 mt-6">
-        <button
-          onClick={() => goToPage(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
-        >
-          Prev
-        </button>
-
-        {[...Array(totalPages)].map((_, idx) => {
-          const page = idx + 1;
-          return (
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-8 space-x-2">
+          {Array.from({ length: totalPages }, (_, i) => (
             <button
-              key={page}
-              onClick={() => goToPage(page)}
-              className={`px-3 py-1 rounded ${
-                page === currentPage ? 'bg-blue-600 text-white' : 'bg-gray-200'
+              key={i}
+              onClick={() => setCurrentPage(i + 1)}
+              className={`px-4 py-2 border rounded ${
+                currentPage === i + 1
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white text-blue-600 hover:bg-blue-100'
               }`}
             >
-              {page}
+              {i + 1}
             </button>
-          );
-        })}
-
-        <button
-          onClick={() => goToPage(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
