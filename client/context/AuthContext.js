@@ -14,6 +14,19 @@ export function AuthProvider({ children }) {
       try {
         const decoded = jwtDecode(token);
         setUser(decoded);
+
+        const currentTime = Date.now() / 1000;
+        const expiresIn = decoded.exp - currentTime;
+
+        if (expiresIn <= 0) {
+          logout();
+        } else {
+          const timeout = setTimeout(() => {
+            logout();
+          }, expiresIn * 1000);
+
+          return () => clearTimeout(timeout);
+        }
       } catch {
         localStorage.removeItem('token');
       }

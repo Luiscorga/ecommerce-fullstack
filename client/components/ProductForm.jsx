@@ -8,6 +8,7 @@ export default function ProductForm({ initialData = {}, onSubmit, submitText }) 
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const [formStatus, setFormStatus] = useState({ type: '', message: '' });
 
   useEffect(() => {
     if (initialData) {
@@ -20,25 +21,27 @@ export default function ProductForm({ initialData = {}, onSubmit, submitText }) 
     }
   }, [initialData]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+      const handleSubmit = (e) => {
+        e.preventDefault();
 
-    if (!brand || !model || !description || !price || !stock || !imageUrl) {
-      alert('All fields are required');
-      return;
-    }
+        if (!brand || !model || !description || !price || !stock || !imageUrl) {
+          setFormStatus({ type: 'error', message: 'All fields are required.' });
+          return;
+        }
 
-    const product = {
-      brand,
-      model,
-      description,
-      price: parseFloat(price),
-      stock,
-      image_url: imageUrl,
-    };
+        const product = {
+          brand,
+          model,
+          description,
+          price: parseFloat(price),
+          stock,
+          image_url: imageUrl,
+        };
 
-    onSubmit(product);
-  };
+        onSubmit(product);
+        setFormStatus({ type: 'success', message: 'Product saved successfully!' });
+      };
+
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-lg mx-auto mt-6">
@@ -85,9 +88,21 @@ export default function ProductForm({ initialData = {}, onSubmit, submitText }) 
         onChange={(e) => setImageUrl(e.target.value)}
         className="w-full p-2 border rounded"
       />
-      <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded">
-        {submitText}
-      </button>
+        <button
+          type="submit"
+          className="w-full text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm py-2.5 text-center"
+        >
+          {submitText}
+        </button>
+        {formStatus.message && (
+          <div
+            className={`text-sm mt-2 text-center ${
+              formStatus.type === 'error' ? 'text-red-600' : 'text-green-600'
+            }`}
+          >
+            {formStatus.message}
+          </div>
+        )}
     </form>
   );
 }
