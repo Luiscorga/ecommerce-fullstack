@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 import { fetcher } from '@/utils/fetcher';
 
 export default function LoginPage() {
@@ -23,7 +23,7 @@ export default function LoginPage() {
 
       login(data.token);
       router.push('/');
-      
+
     } catch (err) {
       setError(err.message);
     }
@@ -38,6 +38,16 @@ export default function LoginPage() {
         <button className="w-full p-2 bg-blue-600 text-white">Login</button>
       </form>
       {error && <p className="text-red-500 mt-2">{error}</p>}
+
+      <div className="mt-4 text-center">
+        <p>Don't have an account?</p>
+        <button
+          onClick={() => router.push('/registration')}
+          className="mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+        >
+          Register
+        </button>
+      </div>
     </div>
   );
 }

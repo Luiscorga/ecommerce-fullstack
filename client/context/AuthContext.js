@@ -2,7 +2,7 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import { jwtDecode } from "jwt-decode";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const decoded = jwt_decode(token);
+        const decoded = jwtDecode(token);
         setUser(decoded);
       } catch {
         localStorage.removeItem('token');
@@ -37,5 +37,3 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
-
-export const useAuth = () => useContext(AuthContext);
