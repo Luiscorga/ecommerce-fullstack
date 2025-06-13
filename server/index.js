@@ -7,18 +7,20 @@ const app = express();
 
 dotenv.config()
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 app.use(cors());
 app.use(express.json());
 
 const authRoutes = require('./routes/auth');
 const protectedRoutes = require('./routes/protected');
+const productRoutes = require('./routes/productRoutes');
 
 
 //app.use("/api/products", require("./routes/productRoutes"));
 //app.use("/api/users", require("./routes/userRoutes"));
 app.use('/api/auth', authRoutes);
 app.use('/api', protectedRoutes);
+app.use('/api/products', productRoutes);
 
 
 (async () => {
