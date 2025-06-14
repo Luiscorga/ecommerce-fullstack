@@ -1,22 +1,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { fetcher } from '@/utils/fetcher';
 import { useCart } from '@/context/CartContext';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
+import { useProducts } from '@/hooks/useProducts';
 
 const ITEMS_PER_PAGE = 9;
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState([]);
+  const { products, loading } = useProducts();
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [lastAddedId, setLastAddedId] = useState(null);
   const { addToCart } = useCart();
-
-  useEffect(() => {
-    fetcher('http://localhost:8080/api/products').then(setProducts);
-  }, []);
 
   const handleAddToCart = (product) => {
     addToCart(product);

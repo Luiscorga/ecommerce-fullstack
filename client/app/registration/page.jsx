@@ -1,6 +1,12 @@
 'use client';
 import { useState } from 'react';
 import { fetcher } from '@/utils/fetcher';
+import * as Yup from 'yup';
+
+const registerSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email').required('Email is required'),
+  password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+});
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('');
@@ -14,6 +20,8 @@ export default function RegisterPage() {
     setSuccess(false);
 
     try {
+      await registerSchema.validate({ email, password }, { abortEarly: false });
+
       await fetcher('http://localhost:8080/api/auth/register', {
         method: 'POST',
         body: JSON.stringify({ email, password }),
@@ -23,7 +31,11 @@ export default function RegisterPage() {
       setEmail('');
       setPassword('');
     } catch (err) {
-      setError(err.message || 'Registration failed');
+      if (err.name === 'ValidationError') {
+        setError(err.errors.join(', '));
+      } else {
+        setError(err.message || 'Registration failed');
+      }
     }
   };
 

@@ -20,7 +20,7 @@ export default function Navbar() {
     <nav className="bg-gray-800 text-white">
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/" className="text-xl font-bold">
-          MyStore
+          Guitar Oracle
         </Link>
 
         <button className="md:hidden" onClick={toggleMenu}>
