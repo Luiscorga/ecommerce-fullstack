@@ -106,15 +106,15 @@ Ejecutar este script en MySQL:
 
         INSERT INTO products (brand, model, description, price, color, stock, image_url)
         VALUES 
-        ('Fender', 'Stratocaster', 'Classic tone and playability. Alder body and maple neck.', 1199.99, 'Sunburst', 10, 'https://example.com/images/fender-strat.jpg'),
+        ('Fender', 'Stratocaster', 'Classic tone and playability. Alder body and maple neck.', 1199.99, 'Sunburst', 10, 'https://images-cdn.ubuy.cr/635205e5e871b44bc73a1c86-fender-limited-edition-player.jpg'),
 
-        ('Gibson', 'Les Paul Standard', 'Iconic single-cut design with powerful humbuckers.', 2499.00, 'Cherry Sunburst', 5, 'https://example.com/images/gibson-lespaul.jpg'),
+        ('Gibson', 'Les Paul Standard', 'Iconic single-cut design with powerful humbuckers.', 2499.00, 'Cherry Sunburst', 5, 'https://images.ctfassets.net/m8onsx4mm13s/47el2F5hvx3S8D9RBrzaSC/e820c543caf9fa194f28b313394eded3/LPS600SCNH1_front.png'),
 
-        ('Ibanez', 'RG550', 'Fast neck and aggressive sound for shredders.', 999.50, 'Purple Neon', 8, 'https://example.com/images/ibanez-rg550.jpg'),
+        ('Ibanez', 'RG550', 'Fast neck and aggressive sound for shredders.', 999.50, 'Purple Neon', 8, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxVUKLX1Hw3qQ8miB4idnd8BofN41QrEA2mw&s'),
 
-        ('PRS', 'Custom 24', 'Versatile sound and stunning finish. Coil-splitting options included.', 3499.00, 'Blue Burst', 3, 'https://example.com/images/prs-custom24.jpg'),
+        ('PRS', 'Custom 24', 'Versatile sound and stunning finish. Coil-splitting options included.', 3499.00, 'Blue Burst', 3, 'https://m.media-amazon.com/images/I/61rzImVrbVL._AC_SL1200_.jpg'),
 
-        ('Yamaha', 'Pacifica 112V', 'Affordable entry-level guitar with solid performance.', 329.99, 'Black', 15, 'https://example.com/images/yamaha-pacifica.jpg');
+        ('Yamaha', 'Pacifica 112V', 'Affordable entry-level guitar with solid performance.', 329.99, 'Black', 15, 'https://es.yamaha.com/es/files/B4851F1DBB7B4AC2980E5C7F8AE91628_12073_22136b25f0a373162e0b47643d62aebd.jpg?impolicy=resize&imwid=735&imhei=735');
 
 
 
