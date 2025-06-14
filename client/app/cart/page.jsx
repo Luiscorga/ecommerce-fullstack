@@ -41,7 +41,8 @@ export default function CartPage() {
 
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 p-6" >
+    <div className="p-6 max-w-4xl pr-0 pl-11 mx-auto border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10 bg-white">
       <h1 className="text-3xl font-bold mb-6">Your Cart</h1>
 
       <table className="w-full border-collapse">
@@ -92,7 +93,15 @@ export default function CartPage() {
         >
           Clear Cart
         </button>
+        <a
+            href="/checkout"
+            className="mt-4 inline-block bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700"
+            >
+            Proceed to Checkout
+            </a>
+
       </div>
+    </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useState } from 'react';
 import Link from "next/link";
 import { useAuth } from '@/hooks/useAuth';
@@ -7,11 +7,11 @@ import { useRouter } from 'next/navigation';
 export default function Navbar() {
   const { user, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-   const router = useRouter();
+  const router = useRouter();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
-   const logoutNav = () => {
+  const logoutNav = () => {
     logout();
     router.push('/login');
   };
@@ -46,6 +46,13 @@ export default function Navbar() {
           {user?.role === 'admin' && (
             <li>
               <Link href="/admin" className="hover:text-gray-300">Admin Panel</Link>
+            </li>
+          )}
+          {user && (
+            <li>
+              <Link href="/user" className="hover:text-green-300">
+                {user.email}
+              </Link>
             </li>
           )}
           {user ? (

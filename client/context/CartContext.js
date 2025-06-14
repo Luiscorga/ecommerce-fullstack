@@ -1,11 +1,36 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { useAuth } from '@/hooks/useAuth'; 
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
+  const { user } = useAuth(); 
   const [cart, setCart] = useState([]);
+
+  const storageKey = user ? `cart_${user.id}` : null;
+
+  useEffect(() => {
+    if (!storageKey) return;
+
+    const stored = localStorage.getItem(storageKey);
+    if (stored) {
+      try {
+        setCart(JSON.parse(stored));
+      } catch (e) {
+        console.error('Invalid cart data, clearing');
+        localStorage.removeItem(storageKey);
+      }
+    } else {
+      setCart([]);
+    }
+  }, [storageKey]);
+
+  useEffect(() => {
+    if (!storageKey) return;
+    localStorage.setItem(storageKey, JSON.stringify(cart));
+  }, [cart, storageKey]);
 
   const addToCart = (product) => {
     setCart((prev) => {
@@ -32,7 +57,9 @@ export function CartProvider({ children }) {
   const clearCart = () => setCart([]);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart }}
+    >
       {children}
     </CartContext.Provider>
   );

@@ -5,7 +5,7 @@ import { fetcher } from '@/utils/fetcher';
 import { useCart } from '@/context/CartContext';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 9;
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -36,7 +36,7 @@ export default function ProductsPage() {
   );
 
   return (
-    <div className="p-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 p-6" >
       <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">Products</h1>
       <div className="max-w-2xl mx-auto mb-6 relative">
         <input
@@ -47,15 +47,14 @@ export default function ProductsPage() {
             setSearchTerm(e.target.value);
             setCurrentPage(1);
           }}
-          className="w-full px-4 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
+          className="w-full px-4 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10 bg-white"
         />
         <MagnifyingGlassIcon className="w-5 h-5 absolute right-3 top-2.5 text-gray-500 pointer-events-none" />
       </div>
 
-      {/* Product grid */}
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mx-auto max-w-6xl">
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mx-auto max-w-6xl "> 
         {paginatedProducts.map((product) => (
-          <div key={product.id} className="border rounded-xl p-4 shadow-md flex flex-col relative">
+          <div key={product.id} className="border border-white rounded-xl p-4 shadow-md flex flex-col relative bg-white">
             <img
               src={product.image_url}
               alt={product.model}
@@ -73,7 +72,6 @@ export default function ProductsPage() {
               Add to Cart
             </button>
 
-            {/* Per-card success message */}
             {lastAddedId === product.id && (
               <div className="mt-2 text-sm text-green-600 bg-green-100 rounded px-2 py-1 text-center">
                 Added to cart!
@@ -83,7 +81,6 @@ export default function ProductsPage() {
         ))}
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-center mt-8 space-x-2">
           {Array.from({ length: totalPages }, (_, i) => (
